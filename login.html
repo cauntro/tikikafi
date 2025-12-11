@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>TIKLAF • Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontawesome/6.5.0/css/all.min.css">
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, query, where, getDocs } 
+    from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAN4j7LFXX7A9R-h_nWoqc45WiTAMPLguU",
+  authDomain: "tiklaf-site.firebaseapp.com",
+  projectId: "tiklaf-site",
+  storageBucket: "tiklaf-site.firebasestorage.app",
+  messagingSenderId: "982523558082",
+  appId: "1:982523558082:web:b712d19d0cb337b782635b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function loginUser(){
+    let email = document.getElementById("email").value.trim();
+    let pass = document.getElementById("password").value.trim();
+
+    const q = query(
+        collection(db,"users"),
+        where("email","==",email),
+        where("password","==",pass)
+    );
+    const snap = await getDocs(q);
+
+    if(snap.empty){
+        alert("Wrong email or password.");
+        return;
+    }
+
+    // Save session
+    localStorage.setItem("tk_user",email);
+
+    window.location.href="dashboard.html";
+}
+
+window.loginUser = loginUser;
+</script>
+
+<style>
+body{background:#000;color:white;font-family:Arial;margin:0;}
+.container{padding:20px;}
+input{width:100%;padding:12px;margin-top:12px;border:none;border-radius:8px;}
+.btn{margin-top:20px;padding:15px;width:100%;background:#ff0050;border:none;color:white;font-weight:bold;border-radius:8px;}
+.btn:hover{background:#00f2ea;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2><i class="fa fa-sign-in-alt"></i> Login</h2>
+
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<button class="btn" onclick="loginUser()">Login</button>
+
+</div>
+
+</body>
+</html>

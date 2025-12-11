@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TIKLAF • Payment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, addDoc } 
+    from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAN4j7LFXX7A9R-h_nWoqc45WiTAMPLguU",
+  authDomain: "tiklaf-site.firebaseapp.com",
+  projectId: "tiklaf-site",
+  storageBucket: "tiklaf-site.firebasestorage.app",
+  messagingSenderId: "982523558082",
+  appId: "1:982523558082:web:b712d19d0cb337b782635b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function submitPayment(){
+    let email = localStorage.getItem("tk_user");
+    if(!email){ alert("Not logged in"); return; }
+
+    let trans = document.getElementById("transid").value.trim();
+    if(trans.length < 6){
+        alert("Invalid Transaction ID");
+        return;
+    }
+
+    await addDoc(collection(db,"payments"),{
+        email:email,
+        transid:trans,
+        time:Date.now()
+    });
+
+    window.location.href="thankyou.html";
+}
+
+window.submitPayment = submitPayment;
+</script>
+
+<style>
+body{background:#000;color:white;font-family:Arial;margin:0;}
+header{
+    background:linear-gradient(90deg,#ff0050,#00f2ea);
+    padding:20px;text-align:center;font-size:24px;font-weight:bold;
+}
+.container{padding:20px;}
+.card{
+    border:1px solid #00f2ea;padding:15px;border-radius:12px;margin-top:20px;
+}
+input{
+    margin-top:15px;padding:12px;width:100%;
+    border-radius:8px;border:none;
+}
+.btn{
+    background:#ff0050;margin-top:15px;padding:12px;width:100%;
+    border-radius:8px;color:white;font-weight:bold;border:none;
+}
+.btn:hover{background:#00f2ea;}
+</style>
+
+</head>
+
+<body>
+
+<header><i class="fa fa-credit-card"></i> Payment Confirmation</header>
+
+<div class="container">
+
+<div class="card">
+<h3>Mobile Money Steps</h3>
+<p>1. Dial *165# / *185#</p>
+<p>2. Select Send Money</p>
+<p>3. Merchant Code: <b>123456</b></p>
+<p>4. Enter Amount</p>
+<p>5. Enter PIN</p>
+</div>
+
+<div class="card">
+<h3>Submit Your Transaction ID</h3>
+<input id="transid" placeholder="Enter Transaction ID">
+
+<button class="btn" onclick="submitPayment()">Submit</button>
+</div>
+
+</div>
+
+</body>
+</html>

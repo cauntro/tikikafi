@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TIKLAF • Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- FIREBASE IMPORTS -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, query, where, getDocs } 
+    from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAN4j7LFXX7A9R-h_nWoqc45WiTAMPLguU",
+  authDomain: "tiklaf-site.firebaseapp.com",
+  projectId: "tiklaf-site",
+  storageBucket: "tiklaf-site.firebasestorage.app",
+  messagingSenderId: "982523558082",
+  appId: "1:982523558082:web:b712d19d0cb337b782635b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.onload = async () => {
+    let email = localStorage.getItem("tk_user");
+    if(!email){ window.location.href="login.html"; return; }
+
+    document.getElementById("userEmail").innerText = email;
+
+    const q = query(collection(db,"users"), where("email","==",email));
+    const snap = await getDocs(q);
+    snap.forEach(doc=>{
+        document.getElementById("userTik").innerText = doc.data().tiktok;
+    });
+}
+</script>
+
+<style>
+body{background:#000;color:#fff;font-family:Arial;margin:0;}
+header{
+    padding:20px;text-align:center;font-size:24px;font-weight:bold;
+    background:linear-gradient(90deg,#ff0050,#00f2ea);
+}
+.container{padding:20px;}
+.card{
+    border:1px solid #00f2ea;
+    padding:15px;margin-top:20px;border-radius:12px;
+}
+.btn{
+    margin-top:15px;background:#ff0050;color:white;
+    padding:12px;display:inline-block;border-radius:8px;text-decoration:none;
+}
+.btn:hover{ background:#00f2ea; }
+.logout{
+    background:#222;padding:10px;border-radius:6px;margin-top:20px;
+    display:block;text-align:center;color:#ff0050;font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header><i class="fa-brands fa-tiktok"></i> TIKLAF DASHBOARD</header>
+
+<div class="container">
+
+<h3><i class="fa fa-user"></i> Logged in as: <span id="userEmail"></span></h3>
+<h4><i class="fa-brands fa-tiktok"></i> TikTok: <span id="userTik"></span></h4>
+
+<!-- PACKAGES -->
+<div class="card">
+<h3><i class="fa fa-fire"></i> Packages</h3>
+<p>Pick your package and boost your TikTok instantly.</p>
+
+<ul>
+<li>300 Followers — $2</li>
+<li>700 Followers — $4</li>
+<li>1500 Followers — $8</li>
+<li>2500 Followers — $12</li>
+</ul>
+
+<a href="payment.html" class="btn">How To Pay</a>
+</div>
+
+<!-- MOBILE MONEY STEPS -->
+<div class="card">
+<h3><i class="fa fa-credit-card"></i> How to Pay (MTN & Airtel)</h3>
+<p>1. Dial *165# (MTN) or *185# (Airtel).</p>
+<p>2. Select Send Money.</p>
+<p>3. Enter Merchant Code: <b>123456</b></p>
+<p>4. Enter Amount.</p>
+<p>5. Enter PIN.</p>
+<p>6. Submit Transaction ID below.</p>
+
+<a href="payment.html" class="btn">Submit Transaction ID</a>
+</div>
+
+<!-- REVIEWS -->
+<div class="card">
+<h3><i class="fa fa-star"></i> Reviews</h3>
+<p>⭐⭐⭐⭐⭐ – “Fast delivery!”</p>
+<p>⭐⭐⭐⭐ – “Legit, got followers in minutes.”</p>
+</div>
+
+<!-- FUTURE DASHBOARD -->
+<div class="card">
+<h3><i class="fa fa-clock"></i> Coming Soon</h3>
+<p>• Track live delivery progress</p>
+<p>• VIP Booster</p>
+<p>• Ad-Watch Points System</p>
+</div>
+
+<a class="logout" href="login.html">Logout</a>
+
+</div>
+
+</body>
+</html>
