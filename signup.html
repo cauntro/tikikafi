@@ -10,21 +10,25 @@
 <script type="module">
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
   // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-    apiKey: "AIzaSyAN4j7LFXX7A9R-h_nWoqc45WiTAMPLguU",
-    authDomain: "tiklaf-site.firebaseapp.com",
-    projectId: "tiklaf-site",
-    storageBucket: "tiklaf-site.firebasestorage.app",
-    messagingSenderId: "982523558082",
-    appId: "1:982523558082:web:b712d19d0cb337b782635b"
+    apiKey: "AIzaSyAylz4rqQN_ZJ7YHu2UPM4Zqo7slzRUtQU",
+    authDomain: "real-tiklaf.firebaseapp.com",
+    projectId: "real-tiklaf",
+    storageBucket: "real-tiklaf.firebasestorage.app",
+    messagingSenderId: "986301541940",
+    appId: "1:986301541940:web:0ddabfb9569d3b80992461",
+    measurementId: "G-WN3DVVVYE9"
   };
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 </script>
 
 <style>
@@ -56,4 +60,5 @@ input{
 </div>
 
 </body>
+
 </html>
