@@ -29,6 +29,9 @@
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
+
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.database();
 </script>
 
 <style>
@@ -52,13 +55,33 @@ input{
 
 <input id="email" placeholder="Email">
 <input id="username" placeholder="Username">
-<input id="password" type="password" placeholder="Password">
 <input id="tiktok" placeholder="TikTok Profile Link">
+<input id="password" type="password" placeholder="Password">
 
 <button class="btn" onclick="signupUser()">Sign Up</button>
 
 </div>
+<script>
+  function submitSignup(){
+    var email = document.getElementById("email").value;
+    var username = document.getElementById("username").value;
+    var tiktok = document.getElementById("tiktok").value;
+    var password = document.getElementById("password").value;
 
+    if(!email || !username || !tiktok){alert("Fill all the required fields");
+                                       return;}
+db.ref().push({
+  email: email, username: username, tiktok: tiktok, password: password
+})
+    .then(() => {
+      alert("SignUp Successful");
+    })
+    .catch((error) => {
+      alert("Error: " + error.message);
+    });
+  }
+</script>
 </body>
 
 </html>
+
